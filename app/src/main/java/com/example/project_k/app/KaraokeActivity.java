@@ -19,7 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.project_k.app.R;
+import com.example.project_k.app.util.KaraokeUtil;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
@@ -69,6 +69,14 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("BLAH", getBaseContext().getFilesDir().getAbsolutePath());
+        KaraokeUtil.copyFile("bin/ffmpeg", "/data/data/com.example.project_k.app/files/ffmpeg", getBaseContext());
+        //KaraokeUtil.copyFile("src/main/jniLibs/libavdevice-55.so", "/data/data/com.example.project_k.app/files/libavdevice-55.so", getBaseContext());
+
+        KaraokeUtil.copyFile("battery.wav", "/data/data/com.example.project_k.app/files/battery.wav", getBaseContext());
+        KaraokeUtil.copyFile("plan.wav", "/data/data/com.example.project_k.app/files/plan.wav", getBaseContext());
+        KaraokeUtil.combine("/data/data/com.example.project_k.app/files/battery.wav",
+                "/data/data/com.example.project_k.app/files/plan.wav");
 
         setContentView(R.layout.karaoke_activity);
 
