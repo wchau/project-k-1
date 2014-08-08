@@ -24,8 +24,14 @@ public class KaraokeUtil {
             }
             out.close();
             in.close();
-
+            Process nativeApp = Runtime.getRuntime().exec(
+                "chmod 777 " + localPath
+            );
+            nativeApp.waitFor();
         } catch (IOException e) {
+            Log.e("WTF", e.getMessage());
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             Log.e("WTF", e.getMessage());
             throw new RuntimeException(e);
         }
@@ -35,8 +41,12 @@ public class KaraokeUtil {
         try {
             String[] envp = {"LD_LIBRARY_PATH=/data/data/com.example.project_k.app/lib:$LD_LIBRARY_PATH"};
             Process nativeApp = Runtime.getRuntime().exec(
-                    "/data/data/com.example.project_k.app/files/ffmpeg -i " + filename1 + " -i " + filename2
-                            + " -filter_complex [0:a][1:a]amerge[aout] -map [aout] /data/data/com.example.project_k.app/files/output.wav -y", envp);
+                "/data/data/com.example.project_k.app/files/ffmpeg -i " + filename1 + " -i " + filename2
+                + " -c:v copy -c:a aac -filter_complex [0:a][1:a]amerge[aout] -map 0:v:0 -map [aout] -ac 1 -b:a 32k "
+                + "-strict experimental /sdcard/Download/output.3gp -y", envp);
+            //Process nativeApp = Runtime.getRuntime().exec(
+            //        "/data/data/com.example.project_k.app/files/ffmpeg -i " + filename1 + " -i " + filename2
+            //                + " -filter_complex [0:a][1:a]amerge[aout] -map [aout] /data/data/com.example.project_k.app/files/output.wav -y", envp);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(nativeApp.getErrorStream()));
             int read;

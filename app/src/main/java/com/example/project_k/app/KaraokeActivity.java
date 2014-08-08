@@ -37,7 +37,9 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
     private static final ListEntry[] ENTRIES = {
             new ListEntry("Androidify App", "irH3OSOskcE", false),
             new ListEntry("Chrome Speed Tests", "nCgQDjiotG0", false),
-            new ListEntry("Playlist: Google I/O 2012", "PL56D792A831D0C362", true)};
+            new ListEntry("Playlist: Google I/O 2012", "PL56D792A831D0C362", true),
+            new ListEntry("Shakira", "0HtACLaRDk0", false),
+            new ListEntry("Let it Go", "moSFlvxnbgk", false)};
 
     private static final String KEY_CURRENTLY_SELECTED_ID = "currentlySelectedId";
 
@@ -71,12 +73,6 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
         super.onCreate(savedInstanceState);
         Log.e("BLAH", getBaseContext().getFilesDir().getAbsolutePath());
         KaraokeUtil.copyFile("bin/ffmpeg", "/data/data/com.example.project_k.app/files/ffmpeg", getBaseContext());
-        //KaraokeUtil.copyFile("src/main/jniLibs/libavdevice-55.so", "/data/data/com.example.project_k.app/files/libavdevice-55.so", getBaseContext());
-
-        KaraokeUtil.copyFile("battery.wav", "/data/data/com.example.project_k.app/files/battery.wav", getBaseContext());
-        KaraokeUtil.copyFile("plan.wav", "/data/data/com.example.project_k.app/files/plan.wav", getBaseContext());
-        KaraokeUtil.combine("/data/data/com.example.project_k.app/files/battery.wav",
-                "/data/data/com.example.project_k.app/files/plan.wav");
 
         setContentView(R.layout.karaoke_activity);
 
@@ -111,8 +107,10 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
 
 
         // Android audio capture and player variables.
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
+        //mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName = "/sdcard/Download/pure_singing.3gp";
+        //mFileName += "/audiorecordtest.3gp";
+        Log.e("Filename", mFileName);
 
 
         setControlsEnabled(false);
@@ -309,6 +307,9 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
             log("\tPAUSED " + getTimesText());
 
             stopRecording();
+            KaraokeUtil.combine(
+                    "/sdcard/Download/let_it_go.3gp",
+                    mFileName);
             startPlaying();
         }
 
@@ -424,7 +425,8 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
     private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(mFileName);
+            mPlayer.setDataSource("/sdcard/Download/output.3gp");
+            //mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
