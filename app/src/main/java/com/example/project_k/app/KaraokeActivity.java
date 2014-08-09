@@ -34,12 +34,13 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
         CompoundButton.OnCheckedChangeListener,
         AdapterView.OnItemSelectedListener {
 
+    private static final String[] arr = new String[] {"shakira.3gp", "let_it_go.3gp", "gangnam_style.3gp", "snowman.3gp"};
+
     private static final ListEntry[] ENTRIES = {
-            new ListEntry("Androidify App", "irH3OSOskcE", false),
-            new ListEntry("Chrome Speed Tests", "nCgQDjiotG0", false),
-            new ListEntry("Playlist: Google I/O 2012", "PL56D792A831D0C362", true),
-            new ListEntry("Shakira", "0HtACLaRDk0", false),
-            new ListEntry("Let it Go", "moSFlvxnbgk", false)};
+            new ListEntry("Shakira", "7-7knsP2n5w", false),
+            new ListEntry("Let It Go", "0HtACLaRDk0", false),
+            new ListEntry("Gangnam Style", "9bZkp7q19f0", false),
+            new ListEntry("Build Snowman", "6ZOI1yUGPBQ", false)};
 
     private static final String KEY_CURRENTLY_SELECTED_ID = "currentlySelectedId";
 
@@ -108,7 +109,7 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
 
         // Android audio capture and player variables.
         //mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName = "/sdcard/Download/pure_singing.3gp";
+        mFileName = "/sdcard/Download/singing_" + arr[currentlySelectedPosition] + ".3gp";
         //mFileName += "/audiorecordtest.3gp";
         Log.e("Filename", mFileName);
 
@@ -308,7 +309,7 @@ public class KaraokeActivity extends YouTubeFailureRecoveryActivity implements
 
             stopRecording();
             KaraokeUtil.combine(
-                    "/sdcard/Download/let_it_go.3gp",
+                    "/sdcard/Download/" + arr[currentlySelectedPosition],
                     mFileName);
             startPlaying();
         }
